@@ -1,12 +1,12 @@
-import Eris from "eris";
+import Eris, { Message } from "eris";
 import KurokaClient from "../src/client/KurokaClient";
 
-export default class CommandHandler {
+export default class CommandRunner {
     public commandMessages = new Map<string, CommandMessageData>();
 
     public constructor(public client: KurokaClient) {}
 
-    public run(message: Eris.Message) {
+    public start(message: Eris.Message) {
         if (message.channel.type !== Eris.Constants.ChannelTypes.GUILD_TEXT) {
             return;
         }
@@ -14,15 +14,16 @@ export default class CommandHandler {
         if (message.author.bot || message.webhookID) {
             return;
         }
+
+        message.channel
         
         let args = message.content.slice(this.client.prefix.length).trim().split(" ");
         let command = this.client.cache.commands.get(args[0]);
 
-        message.channel
-
         if (typeof command !== "undefined") {
-            this.commandMessages.set(message.author.id, { argsUsed: args[0] });
-            command.exec(message, { args, client: this.client });
+            this.commandMessages.set(message.author.id, { argsUsed: args.join(" "), command: args[0] });
+
+            command.exec(message as any, { args: args.slice(1), client: this.client });
         }
     }
 }
