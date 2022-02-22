@@ -13,4 +13,4 @@ export interface ICommandCtx {
     client: KurokaClient;
 }
 
-export type ExecFunction = (message: Eris.Message<Eris.GuildChannel>, ctx: ICommandCtx) => void;
+export type ExecFunction = (message: Eris.Message<Eris.TextableChannel>, ctx: ICommandCtx) => void;
