@@ -1,6 +1,14 @@
 {
     "compilerOptions": {
         "target": "ESNext",
-        "module": "CommonJS"
-    }
+        "module": "CommonJS",
+        "watch": true,
+        "esModuleInterop": true,
+        "outDir": "./build",
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "strict": true,
+        "strictPropertyInitialization": true
+    },
+    "exclude": ["node_modules"]
 }
