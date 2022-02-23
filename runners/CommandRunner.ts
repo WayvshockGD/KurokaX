@@ -1,10 +1,15 @@
 import Eris, { Message } from "eris";
 import KurokaClient from "../src/client/KurokaClient";
+import BaseRunner from "./BaseRunner";
 
-export default class CommandRunner {
+export default class CommandRunner extends BaseRunner {
     public commandMessages = new Map<string, CommandMessageData>();
 
-    public constructor(public client: KurokaClient) {}
+    public constructor(public client: KurokaClient) {
+        super();
+
+        super.init(this.constructor.name);
+    }
 
     public start(message: Eris.Message) {
         if (message.channel.type !== Eris.Constants.ChannelTypes.GUILD_TEXT) {
