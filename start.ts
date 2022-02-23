@@ -7,10 +7,19 @@ let client = new KurokaClient();
 
 async function init() {
     await client.connect();
+    client.on("ready", () => {
+        console.log("Ready to serve giveaways");
+    });
+    client.on("messageCreate", (message) => {
+        if (client.guilds.get(message.guildID ?? "")?.channels.get(message.channel.id)) {
+            client.commands.start(message as any);
+        }
+    });
 }
+init();
 
-for (let file of readdirSync("./commands/")) {
-    let command: ICommand = require(Util.formatString("./comands/{0}", file));
+for (let file of readdirSync("./build/commands/")) {
+    let command: ICommand = require(Util.formatString("./commands/{0}", file));
     client.cache.commands.set(command.name, command);
 
     if (command.aliases.length) {
