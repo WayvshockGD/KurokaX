@@ -10,7 +10,7 @@ export = new BuildCommand({
         let now = Date.now();
 
         message.channel.createMessage("Ping...?").then(async (msg) => {
-            let str = await setTimeout(600, "Pong! {0}");
+            let str = await setTimeout(30, "Pong! {0}");
             let diff = (Date.now() - now);
             msg.edit(Util.formatString(str, diff.toString()));
         })

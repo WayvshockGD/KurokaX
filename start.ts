@@ -2,19 +2,34 @@ import { readdirSync } from "fs";
 import { ICommand } from "./src/Command";
 import KurokaClient from "./src/client/KurokaClient"
 import Util from "./util/Util";
+import api from "./api";
 
 let client = new KurokaClient();
 
 async function init() {
     await client.connect();
+    
     client.on("ready", () => {
         console.log("Ready to serve giveaways");
-    });
-    client.on("messageCreate", (message) => {
-        if (client.guilds.get(message.guildID ?? "")?.channels.get(message.channel.id)) {
+    })
+    .on("messageCreate", (message) => {
+        if (!message.guildID) {
+            return;
+        }
+
+        let guild = client.guilds.get(message.guildID);
+
+        if (!guild) {
+            return;
+        }
+
+        let channel = guild.channels.get(message.channel.id);
+
+        if (channel) {
             client.commands.start(message as any);
         }
     });
+    api();
 }
 init();
 
