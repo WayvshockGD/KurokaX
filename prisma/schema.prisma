@@ -1,0 +1,16 @@
+datasource db {
+    provider = "mongodb"
+    url = env("DATABASE_URL")
+}
+
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["mongoDb"]
+}
+
+model GiveawayData {
+    guildID String @id @map("_id")
+    time String @unique
+    started String @unique
+    channel String @unique
+}

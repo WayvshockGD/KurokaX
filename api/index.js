@@ -8,8 +8,8 @@ let routes = [{
     name: "/api/giveaways"
 }]
 
-app.get("/api/giveaways", GiveawayRouter);
-app.get("/", (_, res) => res.status(200).json({
+app.use("/api/giveaways", GiveawayRouter);
+app.use("/", (_, res) => res.status(200).json({
     context: "api_route_map",
     routes: routes.map((val) => val.name)
 }));
