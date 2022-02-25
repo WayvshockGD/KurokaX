@@ -1,6 +1,7 @@
 let express = require("express");
 const ms = require("ms");
 const { setTimeout } = require("timers/promises");
+const Constants = require("../Constants");
 const DB = require("../Database");
 
 let router = express.Router();
@@ -26,7 +27,7 @@ router.post("/start", async (req, res) => {
     console.log(req.headers)
     await DB.setGiveaway(res, guild, channel, { started, end });
     await setTimeout(5000);
-    res.status(200).send({ message: "Successfully set a new giveaway" });
+    res.status(200).json({ message: Constants.SUCCESS });
 });
 
 module.exports = router;

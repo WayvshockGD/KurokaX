@@ -1,4 +1,5 @@
 let { PrismaClient } = require("@prisma/client");
+const Constants = require("./Constants");
 let client = new PrismaClient();
 
 module.exports = class DB {
@@ -9,14 +10,12 @@ module.exports = class DB {
      * @param {{ started: string, end: string }} times 
      */
     static async setGiveaway(res, guild, channel, times) {
-        await client.$connect();
-
         let started = times.started;
         let time = times.end;
 
         if (await client.giveawayData.findFirst({ where: { guildID: guild } })) {
             return res.status(200).json({ 
-                message: "A timed giveaway already exists for this guild" 
+                message: Constants.HAS_QUERY
             });
         }
 
@@ -32,9 +31,13 @@ module.exports = class DB {
         } catch (err) {
             console.log(err)
             res.status(500).json({ 
-                message: "Could not create timed giveaway",
+                message: Constants.UNKNOWN_ERROR,
                 err
             });
         }
+    }
+
+    static async startDatabase() {
+        return await client.$connect();
     }
 }
